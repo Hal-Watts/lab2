@@ -43,10 +43,10 @@ To think about before you start coding:
 
 Now implement the two functions curry and uncurry.
 ......................................................................*)
+(*
+let curry (f : ('a * 'b) -> 'c) : 'a -> 'b -> 'c = f -> f (x, y) ;;
 
-let curry = fun _ -> failwith "curry not implemented" ;;
-
-let uncurry = fun _ -> failwith "uncurry not implemented" ;;
+let uncurry f = (f (x, y)) -> (f x y) ;; *)
 
 (*......................................................................
 Exercise 2: OCaml's built in binary operators, like ( + ) and ( * ) are
@@ -223,12 +223,11 @@ generate an alternate solution without this property?
 Do so below in a new definition of zip.
 ......................................................................*)
 
-let rec zip = (x : 'a list) (y : 'b list) : ('a * 'b) list =
-match x, y with
-  | [], [] -> []
+let rec zip (x : 'a list) (y : 'b list) : ('a * 'b) list =
+  match x, y with
+   [], [] -> []
   | xhd :: xtl, yhd :: ytl -> (xhd, yhd) :: (zip_exn xtl ytl)
   | _ -> raise (invalid_arg "no") ;;
-
 
 (*====================================================================
 Part 4: Factoring out None-handling
@@ -261,7 +260,9 @@ adjusted for the result type. Implement the maybe function.
 ......................................................................*)
 
 let maybe (f : 'a -> 'b) (x : 'a option) : 'b option =
-  failwith "maybe not implemented" ;;
+  match x with
+    None -> None
+  | Some a -> Some (f a) ;;
 
 (*......................................................................
 Exercise 13: Now reimplement dotprod to use the maybe function. (The
